@@ -1,6 +1,6 @@
 /*
 
-nikthefix 22.01.25
+nikthefix 23.01.25
 
 Lilygo T-Display-S3-Amoled-1.75"
 
@@ -25,6 +25,8 @@ Please set in lv_conf.h:  --->   #if 1                                  (line 15
                           --->   #define LV_MEM_CUSTOM 1                (line 49)
                           --->   #define LV_TICK_CUSTOM 1               (line 88)
                           --->   #define LV_FONT_MONTSERRAT_14 1        (line 367)
+
+                          A copy of my lv_conf.h file is provided.
 
 Set display brightness in setup() ---> lcd_brightness(200); // 0-255
 
