@@ -169,7 +169,6 @@ void setup()
 
 
     CO5300_init();
-    //lcd_setRotation(2); 
     lcd_brightness(200); // 0-255
     lv_init();
     buf = (lv_color_t *)heap_caps_malloc(sizeof(lv_color_t) * LVGL_LCD_BUF_SIZE, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
@@ -181,7 +180,8 @@ void setup()
     disp_drv.rounder_cb = my_rounder; // required for partial refresh
     disp_drv.flush_cb = lv_disp_flush;
     disp_drv.draw_buf = &draw_buf;
-    //disp_drv.full_refresh = 1; // useful for testing but slower
+    //disp_drv.sw_rotate = 1;  
+    //disp_drv.rotated = LV_DISP_ROT_270; // LV_DISP_ROT_0, LV_DISP_ROT_90, LV_DISP_ROT_180, LV_DISP_ROT_270
     lv_disp_drv_register(&disp_drv);
     static lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);
