@@ -86,39 +86,25 @@ void lv_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
 }
 
 
-void my_rounder(lv_disp_drv_t * disp_drv, lv_area_t * area)
+void my_rounder(lv_disp_drv_t *disp_drv, lv_area_t *area)
 {
-   area->x1 = area->x1 & 0xFFFE;     // round down the refresh area x-axis start point to next even number - required for this display
-   area->x2 = (area->x2 & 0xFFFE)+1; // round down the refresh area x-axis end point to next even number - required for this display
+    if (area->x1 % 2 != 0)
+        area->x1 += 1;
+    if (area->y1 % 2 != 0)
+        area->y1 += 1;
 
-   area->y1 = area->y1 & 0xFFFE;     // round down the refresh area y-axis start point to next even number - required for this display
-   area->y2 = (area->y2 & 0xFFFE)+1; // round down the refresh area y-axis end point to next even number - required for this display
+    uint32_t w = (area->x2 - area->x1 + 1);
+    uint32_t h = (area->y2 - area->y1 + 1);
+    if (w % 2 != 0)
+        area->x2 -= 1;
+    if (h % 2 != 0)
+        area->y2 -= 1;
 }
-
-
-//Alternative rounder code:
-// void my_rounder(lv_disp_drv_t *disp_drv, lv_area_t *area)
-// {
-//     if (area->x1 % 2 != 0)
-//         area->x1 += 1;
-//     if (area->y1 % 2 != 0)
-//         area->y1 += 1;
-
-//     uint32_t w = (area->x2 - area->x1 + 1);
-//     uint32_t h = (area->y2 - area->y1 + 1);
-//     if (w % 2 != 0)
-//         area->x2 -= 1;
-//     if (h % 2 != 0)
-//         area->y2 -= 1;
-// }
 
 
 
 static void lv_indev_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 {
-  if (isPressed)
-  {
-     isPressed = false;  
      uint8_t touchpad = touch.getPoint(x, y, touch.getSupportTouchPoint());
        if (touchpad > 0)
        {
@@ -131,7 +117,6 @@ static void lv_indev_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
        {
         data->state = LV_INDEV_STATE_REL;
        }
-  }
 }
 
 
@@ -165,7 +150,6 @@ void setup()
     touch.setMaxCoordinates(466, 466); // Set touch max xy
     //touch.setSwapXY(true); // Set swap xy
     touch.setMirrorXY(true, true); // Set mirror xy
-    attachInterrupt(SENSOR_IRQ, []() {isPressed = true;}, FALLING); //Attach interrupt
 
 
     CO5300_init();
