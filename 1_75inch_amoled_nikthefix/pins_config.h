@@ -1,3 +1,5 @@
+//pin assignments for Lilygo 1.75" amoled esp32-s3 module
+
 #pragma once
 
 /***********************config*************************/
